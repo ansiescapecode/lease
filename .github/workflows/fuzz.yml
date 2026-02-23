@@ -14,8 +14,9 @@ jobs:
     - uses: dtolnay/rust-toolchain@nightly
     - name: Install cargo-fuzz
       run: cargo install cargo-fuzz --version 0.12
-    - name: Build main crate
-      run: cargo build
+    - name: Build fuzz targets
+      run: cargo fuzz build
+      working-directory: fuzz
     - name: Fuzz lease_mut (core unsafe primitive)
       run: cargo fuzz run lease_mut -- -max_total_time=30
       working-directory: fuzz
