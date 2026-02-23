@@ -12,8 +12,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: dtolnay/rust-toolchain@nightly
+      with:
+        components: rust-src
     - name: Install cargo-fuzz
-      run: cargo install cargo-fuzz --version 0.12
+      run: cargo install cargo-fuzz
+    - name: Build main crate
+      run: cargo build
     - name: Build fuzz targets
       run: cargo fuzz build
       working-directory: fuzz
