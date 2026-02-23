@@ -11,7 +11,7 @@ fuzz_target!(|data: TestData| {
 
     // Test the checked path (clone + guard)
     let _ = block_on(async {
-        let _ = lease::lease_async_mut(&mut v, |mut owned| async move {
+        let _ = lease_rs::lease_async_mut(&mut v, |mut owned| async move {
             owned.push(42);
             (owned, Ok::<(), ()>(()))
         }).await;
@@ -20,7 +20,7 @@ fuzz_target!(|data: TestData| {
     // Test unchecked (should work normally when not cancelled)
     let mut v2 = data.vec.clone();
     let _ = block_on(async {
-        let _ = lease::lease_async_mut_unchecked(&mut v2, |mut owned| async move {
+            let _ = lease_rs::lease_async_mut_unchecked(&mut v2, |mut owned| async move {
             owned.push(99);
             (owned, ())
         }).await;

@@ -12,7 +12,7 @@ libfuzzer-sys = "0.4"
 arbitrary = { version = "1.4", features = ["derive"] }
 futures = "0.3"
 
-[dependencies.lease]
+[dependencies.lease-rs]
 path = ".."
 
 [[bin]]
