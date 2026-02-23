@@ -2,9 +2,9 @@
 
 **A std-ish primitive for temporary ownership transfer in Rust.**
 
-[![Crates.io](https://img.shields.io/crates/v/lease-rs.svg)](https://crates.io/crates/lease-rs)
+[![Crates.io](https://img.shields.io/crates/v/lease-rs)](https://crates.io/crates/lease-rs)
 [![Documentation](https://docs.rs/lease-rs/badge.svg)](https://docs.rs/lease-rs)
-[![License](https://img.shields.io/crates/l/lease-rs.svg)](https://github.com/yourusername/lease)
+[![License](https://img.shields.io/crates/l/lease-rs.svg)](https://github.com/ansiescapecode/lease)
 
 This crate provides a comprehensive solution for the fundamental problem of temporarily transferring ownership of values across scopes, closures, and async boundaries. It solves the "cannot borrow across `.await`" problem and enables scoped mutation patterns that are otherwise impossible in safe Rust.
 
@@ -22,22 +22,23 @@ lease-rs = { version = "0.1", default-features = false }
 
 ## Quick Start
 
-```rust
+```rust,no_run
+# #[cfg(feature = "std")]
+# async fn example() {
 use lease_rs::lease_async_mut;
 
-async fn example() {
-    let mut data = vec![1, 2, 3];
+let mut data = vec![1, 2, 3];
 
-    let result = lease_async_mut(&mut data, |mut owned| async move {
-        // You now have full ownership of the data across .await points
-        tokio::time::sleep(tokio::time::Duration::from_millis(1)).await;
-        owned.push(4);
-        (owned, Ok("success"))
-    }).await;
+let result = lease_async_mut(&mut data, |mut owned| async move {
+    // You now have full ownership of the data across .await points
+    tokio::time::sleep(tokio::time::Duration::from_millis(1)).await;
+    owned.push(4);
+    (owned, Ok("success"))
+}).await;
 
-    assert_eq!(data, [1, 2, 3, 4]);
-    assert_eq!(result, Ok("success"));
-}
+assert_eq!(data, [1, 2, 3, 4]);
+assert_eq!(result, Ok("success"));
+# }
 ```
 
 ## Key Features
