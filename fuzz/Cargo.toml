@@ -1,0 +1,34 @@
+[package]
+name = "lease-fuzz"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+arbitrary = { version = "1.4", features = ["derive"] }
+futures = "0.3"
+
+[dependencies.lease]
+path = ".."
+
+[[bin]]
+name = "lease_mut"
+path = "fuzz_targets/lease_mut.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "lease_async_mut"
+path = "fuzz_targets/lease_async_mut.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "owned_lease"
+path = "fuzz_targets/owned_lease.rs"
+test = false
+doc = false

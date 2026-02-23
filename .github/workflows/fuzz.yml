@@ -1,0 +1,25 @@
+name: Fuzz
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  fuzz:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dtolnay/rust-toolchain@nightly
+    - name: Install cargo-fuzz
+      run: cargo install cargo-fuzz --version 0.12
+    - name: Fuzz lease_mut (core unsafe primitive)
+      run: cargo fuzz run lease_mut -- -max_total_time=60
+      working-directory: fuzz
+    - name: Fuzz lease_async_mut (cancellation safety)
+      run: cargo fuzz run lease_async_mut -- -max_total_time=60
+      working-directory: fuzz
+    - name: Fuzz owned_lease (zero-cost paths)
+      run: cargo fuzz run owned_lease -- -max_total_time=30
+      working-directory: fuzz

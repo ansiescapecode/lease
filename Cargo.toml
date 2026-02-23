@@ -1,0 +1,24 @@
+[package]
+name = "lease"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+authors = ["N. Henry"]
+description = "Zero-cost ownership leasing for rust. Temporarily transfer full ownership across .await, threads, scopes, and closures with perfect safety and drop semantics"
+license = "MIT OR Apache-2.0"
+keywords = ["ownership", "leasing", "async", "borrow-checker", "no-std", "zero-cost", "cancellation-safety"]
+categories = ["concurrency", "data-structures", "no-std", "rust-patterns"]
+
+[features]
+default = ["std"]
+std = []
+fuzz = ["dep:cargo-fuzz", "dep:libfuzzer-sys", "dep:arbitrary"]
+
+[dependencies]
+# Fuzzing dependencies (optional)
+cargo-fuzz = { version = "0.12", optional = true }
+libfuzzer-sys = { version = "0.4", optional = true }
+arbitrary = { version = "1.4", features = ["derive"], optional = true }
+
+[dev-dependencies]
+tokio = {version = "1.49.0", features = ["full"]}
