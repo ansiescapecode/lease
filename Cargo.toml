@@ -9,6 +9,7 @@ description = "Zero-cost ownership leasing for rust. Temporarily transfer full o
 license = "MIT OR Apache-2.0"
 keywords = ["ownership", "leasing", "async", "borrow-checker"]
 categories = ["concurrency", "data-structures", "no-std", "rust-patterns"]
+documentation = "https://docs.rs/lease-rs"
 
 [features]
 default = ["std"]
@@ -20,6 +21,10 @@ fuzz = ["dep:cargo-fuzz", "dep:libfuzzer-sys", "dep:arbitrary"]
 cargo-fuzz = { version = "0.12", optional = true }
 libfuzzer-sys = { version = "0.4", optional = true }
 arbitrary = { version = "1.4", features = ["derive"], optional = true }
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [dev-dependencies]
 tokio = {version = "1.49.0", features = ["full"]}
