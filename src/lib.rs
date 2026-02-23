@@ -49,7 +49,7 @@
 //! ```rust,no_run
 //! # #[cfg(feature = "std")]
 //! # async fn example() {
-//! use lease::lease;
+//! use lease_rs::lease;
 //!
 //! let mut data = vec![1, 2, 3];
 //! tokio::spawn(async move {
@@ -271,7 +271,7 @@
 //! ```no_run:disable-run
 //! # #[cfg(feature = "std")]
 //! # async fn example() {
-//! use lease::lease_async_mut;
+//! use lease_rs::lease_async_mut;
 //! use tokio::select;
 //! use tokio::time::{sleep, Duration};
 //!
@@ -316,7 +316,7 @@
 //!
 //! ## Good Patterns
 //! ```rust,no_run
-//! use lease::lease_async_mut;
+//! use lease_rs::lease_async_mut;
 //!
 //! async fn example() {
 //! let mut data = vec![1, 2, 3];
@@ -341,7 +341,7 @@
 //!
 //! ## Anti-patterns
 //! ```rust,no_run
-//! use lease::{lease_async_mut, lease_async_mut_unchecked};
+//! use lease_rs::{lease_async_mut, lease_async_mut_unchecked};
 //!
 //! async fn bad_example() {
 //! let mut data = vec![1, 2, 3];
@@ -431,7 +431,7 @@
 //!
 //! ## After (automatic, safe):
 //! ```rust,no_run
-//! use lease::lease_async_mut;
+//! use lease_rs::lease_async_mut;
 //!
 //! async fn safe_example() {
 //! let mut data = vec![1, 2, 3];
@@ -499,7 +499,7 @@ use core::mem::ManuallyDrop;
 ///
 /// Basic transformation:
 /// ```
-/// use lease::lease;
+/// use lease_rs::lease;
 ///
 /// let (vec, len) = lease(vec![1, 2, 3], |mut v: Vec<i32>| {
 /// v.push(4);
@@ -513,7 +513,7 @@ use core::mem::ManuallyDrop;
 ///
 /// Complex processing:
 /// ```
-/// use lease::lease;
+/// use lease_rs::lease;
 ///
 /// let (data, result) = lease(vec![1, 2, 3, 4, 5], |mut v: Vec<i32>| {
 /// v.retain(|&x| x % 2 == 0);
@@ -571,7 +571,7 @@ where
 ///
 /// Basic mutation:
 /// ```
-/// use lease::lease_mut;
+/// use lease_rs::lease_mut;
 ///
 /// let mut data = vec![1, 2, 3];
 /// let was_empty = lease_mut(&mut data, |mut v: Vec<i32>| {
@@ -587,7 +587,7 @@ where
 ///
 /// Complex transformation:
 /// ```
-/// use lease::lease_mut;
+/// use lease_rs::lease_mut;
 ///
 /// let mut counter = 0;
 /// let result = lease_mut(&mut counter, |mut c: i32| {
@@ -602,7 +602,7 @@ where
 ///
 /// # Safety Warning
 /// ```rust,compile_fail
-/// use lease::lease_mut;
+/// use lease_rs::lease_mut;
 /// use std::panic::catch_unwind;
 ///
 /// let mut data = vec![1, 2, 3];
@@ -681,7 +681,7 @@ where
 /// ```no_run
 /// # #[cfg(feature = "std")]
 /// # async fn example() {
-/// use lease::lease_async;
+/// use lease_rs::lease_async;
 ///
 /// let (result, computation) = lease_async(vec![1, 2, 3], |mut v: Vec<i32>| async move {
 /// tokio::time::sleep(tokio::time::Duration::from_millis(1)).await;
@@ -699,7 +699,7 @@ where
 /// ```no_run
 /// # #[cfg(feature = "std")]
 /// # async fn example() {
-/// use lease::lease_async;
+/// use lease_rs::lease_async;
 ///
 /// let (data, final_result) = lease_async(vec![1, 2, 3], |mut owned_data| async move {
 /// tokio::time::sleep(tokio::time::Duration::from_millis(1)).await; // First .await
@@ -714,7 +714,7 @@ where
 ///
 /// # Comparison with Borrowing
 /// ```rust,no_run
-/// use lease::lease_async;
+/// use lease_rs::lease_async;
 ///
 /// // This doesn't work - can't borrow across .await
 /// async fn broken(data: &mut Vec<i32>) {
@@ -799,7 +799,7 @@ where
 /// ## User Controls Final State
 ///
 /// ```rust,no_run
-/// use lease::lease_async_mut;
+/// use lease_rs::lease_async_mut;
 ///
 /// async fn example() {
 /// let mut data = vec![1, 2, 3];
@@ -839,7 +839,7 @@ where
 /// ```no_run
 /// # #[cfg(feature = "std")]
 /// # async fn example() {
-/// use lease::lease_async_mut;
+/// use lease_rs::lease_async_mut;
 ///
 /// let mut data = vec![1, 2, 3];
 /// let result: Result<&str, ()> = lease_async_mut(&mut data, |mut v: Vec<i32>| async move {
@@ -857,7 +857,7 @@ where
 /// ```no_run
 /// # #[cfg(feature = "std")]
 /// # async fn example() {
-/// use lease::lease_async_mut;
+/// use lease_rs::lease_async_mut;
 ///
 /// let mut data = vec![1, 2, 3];
 /// let result = lease_async_mut(&mut data, |mut v: Vec<i32>| async move {
@@ -886,7 +886,7 @@ where
 /// ```no_run
 /// # #[cfg(feature = "std")]
 /// # async fn example() {
-/// use lease::lease_async_mut;
+/// use lease_rs::lease_async_mut;
 /// use tokio::select;
 /// use tokio::time::{sleep, Duration};
 ///
@@ -915,7 +915,7 @@ where
 ///
 /// ## Comparison with Unchecked
 /// ```rust,no_run
-/// use lease::{lease_async_mut, lease_async_mut_unchecked};
+/// use lease_rs::{lease_async_mut, lease_async_mut_unchecked};
 /// use tokio::select;
 /// use tokio::time::sleep;
 ///
@@ -1048,7 +1048,7 @@ where
 /// ```no_run
 /// # #[cfg(feature = "std")]
 /// # async fn example() {
-/// use lease::lease_async_mut_unchecked;
+/// use lease_rs::lease_async_mut_unchecked;
 ///
 /// // Safe: this task runs to completion or the whole program exits
 /// tokio::spawn(async move {
@@ -1070,7 +1070,7 @@ where
 /// ```rust,no_run
 /// # #[cfg(feature = "std")]
 /// # async fn example() {
-/// use lease::lease_async_mut_unchecked;
+/// use lease_rs::lease_async_mut_unchecked;
 /// use tokio::select;
 ///
 /// let mut data = vec![1, 2, 3];
@@ -1218,7 +1218,7 @@ where
 /// ```no_run
 /// # #[cfg(feature = "std")]
 /// # async fn example() {
-/// use lease::try_lease_async_mut;
+/// use lease_rs::try_lease_async_mut;
 ///
 /// let mut data = vec![1, 2, 3];
 /// let result = try_lease_async_mut(&mut data, |mut v: Vec<i32>| async move {
@@ -1301,7 +1301,7 @@ where
 ///
 /// Owned leasing:
 /// ```
-/// use lease::{lease, lease_with};
+/// use lease_rs::{lease, lease_with};
 ///
 /// let vec = lease_with!(vec![1, 2, 3], |mut v: Vec<i32>| {
 /// v.push(4);
@@ -1312,7 +1312,7 @@ where
 ///
 /// Mutable reference leasing:
 /// ```
-/// use lease::{lease_mut, lease_with};
+/// use lease_rs::{lease_mut, lease_with};
 ///
 /// let mut data = vec![1, 2, 3];
 /// lease_with!(&mut data, mut |v: &mut Vec<i32>| {
@@ -1343,7 +1343,7 @@ macro_rules! lease_with {
 ///
 /// Owned leasing with Result:
 /// ```
-/// use lease::{try_lease, try_lease_with};
+/// use lease_rs::{try_lease, try_lease_with};
 ///
 /// let result: Result<usize, &str> = try_lease_with!("hello".to_string(), |s: String| {
 /// if s.is_empty() {
@@ -1357,7 +1357,7 @@ macro_rules! lease_with {
 ///
 /// Mutable reference leasing:
 /// ```
-/// use lease::{try_lease_mut, try_lease_with};
+/// use lease_rs::{try_lease_mut, try_lease_with};
 ///
 /// let mut data = vec![1, 2, 3];
 /// let result: Result<(), String> = try_lease_with!(&mut data, mut |mut v: Vec<i32>| {
@@ -1394,7 +1394,7 @@ macro_rules! try_lease_with {
 /// ```no_run
 /// # #[cfg(feature = "std")]
 /// # async fn example() {
-/// use lease::{lease_async, lease_async_with};
+/// use lease_rs::{lease_async, lease_async_with};
 ///
 /// let result = lease_async_with!(vec![1, 2, 3], |mut v: Vec<i32>| async move {
 /// tokio::time::sleep(tokio::time::Duration::from_millis(1)).await;
@@ -1409,7 +1409,7 @@ macro_rules! try_lease_with {
 /// ```no_run
 /// # #[cfg(feature = "std")]
 /// # async fn example() {
-/// use lease::lease_async_mut;
+/// use lease_rs::lease_async_mut;
 ///
 /// let mut data = vec![1, 2, 3];
 /// let result: Result<(), ()> = lease_async_mut(&mut data, |mut v: Vec<i32>| async move {
@@ -1426,7 +1426,7 @@ macro_rules! try_lease_with {
 /// ```no_run
 /// # #[cfg(feature = "std")]
 /// # async fn example() {
-/// use lease::lease_async_mut_unchecked;
+/// use lease_rs::lease_async_mut_unchecked;
 ///
 /// let mut data = vec![1, 2, 3];
 /// lease_async_mut_unchecked(&mut data, |mut v: Vec<i32>| async move {
@@ -1462,7 +1462,7 @@ macro_rules! lease_async_with {
 /// ```no_run
 /// # #[cfg(feature = "std")]
 /// # async fn example() -> Result<(), &'static str> {
-/// use lease::{try_lease_async, try_lease_async_with};
+/// use lease_rs::{try_lease_async, try_lease_async_with};
 ///
 /// let result: Result<usize, &str> = try_lease_async_with!("hello".to_string(), |s: String| async move {
 /// tokio::time::sleep(tokio::time::Duration::from_millis(1)).await;
@@ -1482,7 +1482,7 @@ macro_rules! lease_async_with {
 /// ```no_run
 /// # #[cfg(feature = "std")]
 /// # async fn example() {
-/// use lease::try_lease_async_mut;
+/// use lease_rs::try_lease_async_mut;
 ///
 /// let mut data = vec![1, 2, 3];
 /// let result: Result<(), &str> = try_lease_async_mut(&mut data, |mut v: Vec<i32>| async move {
