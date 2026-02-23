@@ -36,7 +36,7 @@
 //! fn problematic() {
 //!     let mut data = vec![1, 2, 3];
 //!     std::thread::spawn(move || {
-//!         // ❌ Borrow checker would error: `data` doesn't live long enough
+//!         // Borrow checker would error: `data` doesn't live long enough
 //!         // The closure captures `&mut data` but the thread might outlive it
 //!         data.push(4);
 //!     });
@@ -53,7 +53,7 @@
 //!
 //! let mut data = vec![1, 2, 3];
 //! tokio::spawn(async move {
-//!     // ✅ Leasing works: full ownership temporarily transferred
+//!     // Leasing works: full ownership temporarily transferred
 //!     let (data, ()) = lease(data, |mut owned| {
 //!         owned.push(4);
 //!         (owned, ()) // Return the modified data
@@ -69,8 +69,8 @@
 //! |--------|----------------------|---------------------|
 //! | **Ownership** | Reference only | Full ownership transfer |
 //! | **Lifetime** | Borrow checker enforced | Explicit scope control |
-//! | **Async/.await** | ❌ Cannot cross `.await` | ✅ Full ownership across `.await` |
-//! | **Closures** | Limited by lifetimes | ✅ Move semantics |
+//! | **Async/.await** | Cannot cross `.await` | Full ownership across `.await` |
+//! | **Closures** | Limited by lifetimes | Move semantics |
 //! | **Safety** | Compile-time guarantees | Runtime safety + compile-time |
 //! | **Performance** | Zero-cost | Zero-cost |
 //! | **Flexibility** | High for simple cases | High for complex patterns |
@@ -283,7 +283,7 @@
 //! (v, Ok("completed"))   // your error type
 //! }) => res,
 //! _ = sleep(Duration::from_millis(1)) => {
-//! // Cancellation happened — data was automatically restored to [1,2,3]
+//! // Cancellation happened - data was automatically restored to [1,2,3]
 //! // No panic, no error returned, no UB
 //! return;
 //! }
@@ -636,12 +636,12 @@ where
         // - `returned` is a valid, initialized `T` (enforced by closure return type).
         // - The pointee of `value` is properly aligned and allocated.
         // - Exclusive access (`&mut T`) means no other code can observe the slot.
-        // - Always executed before return → `*value` invariant is restored.
+        // - Always executed before return - `*value` invariant is restored.
         core::ptr::write(value, returned);
     }
     result
 }
-/// Async lease – perfect for crossing any number of `.await` points.
+/// Async lease - perfect for crossing any number of `.await` points.
 ///
 /// The async version of `lease()`, allowing owned values to be transferred across any number
 /// of `.await` points without borrowing restrictions. This solves the fundamental "cannot borrow
@@ -958,7 +958,7 @@ where
         core::ptr::write(value, returned);
     }
     guard.disarm();
-    result // ← plain user's Result<R, E>. Cancellation = silent restore
+    result // plain user's Result<R, E>. Cancellation = silent restore
 }
 /// Private helper for unchecked async mutable lease operations.
 /// This extracts the common logic between lease_async_mut_unchecked and try_lease_async_mut_unchecked.
@@ -990,7 +990,7 @@ where
     map_result(result)
 }
 
-/// Async mutable lease – true zero-cost, panics on cancellation.
+/// Async mutable lease - true zero-cost, panics on cancellation.
 ///
 /// **The performance-optimized version of `lease_async_mut`**. Achieves true zero-cost operation
 /// by sacrificing cancellation safety. When cancellation occurs, it panics rather than attempting
@@ -1166,7 +1166,7 @@ where
 {
     f(value)
 }
-/// Fallible mutable lease – always restores `T` even on `Err`.
+/// Fallible mutable lease - always restores `T` even on `Err`.
 #[inline(always)]
 pub fn try_lease_mut<T, E, F, R>(value: &mut T, f: F) -> Result<R, E>
 where
@@ -1178,7 +1178,7 @@ where
     });
     let (returned, result) = f(ManuallyDrop::into_inner(taken));
     unsafe {
-        // SAFETY: identical to `lease_mut` – always executed, always valid `T`.
+        // SAFETY: identical to `lease_mut` - always executed, always valid `T`.
         core::ptr::write(value, returned);
     }
     result
@@ -1256,7 +1256,7 @@ where
 {
     lease_async_mut(value, f).await
 }
-/// Fallible async mutable lease – true zero-cost, panics on cancellation.
+/// Fallible async mutable lease - true zero-cost, panics on cancellation.
 ///
 /// # Cancellation Safety
 /// This function is **NOT** cancellation-safe. If the future is cancelled before completion,
@@ -2155,7 +2155,7 @@ mod tests {
 // test tests::tokio_select_with_checked_variant ................ ok
 // test tests::try_lease_async_mut_error_path ................... ok
 //
-// DOC TESTS (31 tests): ALL PASSED ✅
+// DOC TESTS (31 tests): ALL PASSED
 // ========================================
 // test src/lib.rs - (line 23) ................................... ok
 // test src/lib.rs - (line 37) ................................... ok

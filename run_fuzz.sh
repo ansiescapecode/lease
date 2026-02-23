@@ -65,9 +65,9 @@ echo "" >> FUZZING.md
 echo "### Target Results" >> FUZZING.md
 echo "$RESULTS" >> FUZZING.md
 echo "### Summary" >> FUZZING.md
-echo "- ✅ No crashes detected" >> FUZZING.md
-echo "- ✅ Memory safety verified" >> FUZZING.md
-echo "- ✅ Sanitizers passed" >> FUZZING.md
+echo "- No crashes detected" >> FUZZING.md
+echo "- Memory safety verified" >> FUZZING.md
+echo "- Sanitizers passed" >> FUZZING.md
 echo "" >> FUZZING.md
 
 echo "Fuzz results appended to FUZZING.md"

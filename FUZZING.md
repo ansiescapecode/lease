@@ -51,10 +51,10 @@ cargo +nightly fuzz run lease_mut --sanitizer=address -- -max_total_time=30
 
 ## Success Criteria
 
-- ✅ **No crashes** after 30+ seconds per target
-- ✅ **No sanitizer warnings** (ASan/UBSan reports)
-- ✅ **Growing corpus** indicates interesting edge cases found
-- ✅ **CI passes** on all pull requests
+- **No crashes** after 30+ seconds per target
+- **No sanitizer warnings** (ASan/UBSan reports)
+- **Growing corpus** indicates interesting edge cases found
+- **CI passes** on all pull requests
 
 ## What Fuzzing Tests
 
@@ -100,7 +100,7 @@ Total executions across all targets: **24656960**
 - **owned_lease**: 5959935 runs in 15s
 
 ### Summary
-- ✅ No crashes detected
-- ✅ Memory safety verified
-- ✅ Sanitizers passed
+- No crashes detected
+- Memory safety verified
+- Sanitizers passed
 
