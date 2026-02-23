@@ -1,10 +1,10 @@
-# Lease
+# Lease Rs
 
 **A std-ish primitive for temporary ownership transfer in Rust.**
 
-[![Crates.io](https://img.shields.io/crates/v/lease.svg)](https://crates.io/crates/lease)
-[![Documentation](https://docs.rs/lease/badge.svg)](https://docs.rs/lease)
-[![License](https://img.shields.io/crates/l/lease.svg)](https://github.com/yourusername/lease)
+[![Crates.io](https://img.shields.io/crates/v/lease-rs.svg)](https://crates.io/crates/lease-rs)
+[![Documentation](https://docs.rs/lease-rs/badge.svg)](https://docs.rs/lease-rs)
+[![License](https://img.shields.io/crates/l/lease-rs.svg)](https://github.com/yourusername/lease)
 
 This crate provides a comprehensive solution for the fundamental problem of temporarily transferring ownership of values across scopes, closures, and async boundaries. It solves the "cannot borrow across `.await`" problem and enables scoped mutation patterns that are otherwise impossible in safe Rust.
 
@@ -12,18 +12,18 @@ This crate provides a comprehensive solution for the fundamental problem of temp
 
 ```toml
 [dependencies]
-lease = "0.1"
+lease-rs = "0.1"
 ```
 
 For `no_std` environments (embedded, WASM, etc.):
 ```toml
-lease = { version = "0.1", default-features = false }
+lease-rs = { version = "0.1", default-features = false }
 ```
 
 ## Quick Start
 
 ```rust
-use lease::lease_async_mut;
+use lease_rs::lease_async_mut;
 
 async fn example() {
     let mut data = vec![1, 2, 3];
